@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+<body ng-app="myApp" ng-controller="myController">
+    <ul>
+        <li ng-repeat="item in arr">
+            <span my-focus ng-dblclick="change($index)" ng-show="!item.isShow">{{item.val}}</span>
+            <input type="text" ng-model="item.val" ng-show="item.isShow">
+        </li>
+    </ul>
+    <script src="./node_modules/angular/angular.js"></script>
+    <script>
+        var myApp = angular.module('myApp',[]);
+        myApp.directive('myFocus',function(){
+            return {
+                link:function(scope,element,attributes){
+                    // console.log(111);
+                    element.on('dblclick',function(){
+                        // console.log(3323);
+                        // console.log(this);
+                        angular.element(this).parent().children()[1].focus();
+                    })
+                }
+            }
+        })
+        var myController = myApp.controller('myController',function($scope){
+            $scope.arr = [
+                {val:'测试1',isShow:false},
+                {val:'测试2',isShow:false},
+                {val:'测试3',isShow:false},
+                {val:'测试4',isShow:false},
+                {val:'测试5',isShow:false}
+            ];
+            $scope.change = function(index){
+                $scope.arr = $scope.arr.map(function(item){item.isShow = false;return item;})
+                $scope.arr[index].isShow = true;
+            };
+        });
+    </script>
+</body>
+</html>
